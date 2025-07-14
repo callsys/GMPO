@@ -39,7 +39,7 @@ python train_zero_math_gmpo.py \
     --cliprange $CLIPRANGE \
     --oracle_type reward \
     --oracle math \
-    --pretrain Qwen/Qwen2.5-Math-7B \
+    --pretrain ../zyz/understand-r1-zero/data/Qwen2.5-Math-7B \
     --prompt_template qwen_math \
     --verifier_version math_verify \
     --zero-stage 2 \
@@ -69,6 +69,7 @@ python train_zero_math_gmpo.py \
     --eval_input_key input \
     --use-wb \
     --wb_project oat-zero \
-    --wb-run-name qwen2.5-Math-7b-drgrpo-qwenmathtemplate
+    --wb-run-name qwen2.5-Math-7b-drgrpo-qwenmathtemplate \
+    --critic_type_modify gmpo
 
 
