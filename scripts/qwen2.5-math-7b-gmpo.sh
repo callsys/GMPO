@@ -39,7 +39,7 @@ python train_zero_math_gmpo.py \
     --cliprange $CLIPRANGE \
     --oracle_type reward \
     --oracle math \
-    --pretrain ../zyz/understand-r1-zero/data/Qwen2.5-Math-7B \
+    --pretrain Qwen/Qwen2.5-Math-7B \
     --prompt_template qwen_math \
     --verifier_version math_verify \
     --zero-stage 2 \

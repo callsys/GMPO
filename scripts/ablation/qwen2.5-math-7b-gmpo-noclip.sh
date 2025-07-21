@@ -72,6 +72,6 @@ python train_zero_math_gmpo.py \
     --use-wb \
     --wb_project oat-zero \
     --wb-run-name qwen2.5-Math-7b-drgrpo-qwenmathtemplate \
-    --critic_type_modify gmpo
+    --critic_type_modify gmpo_noclip
 
 

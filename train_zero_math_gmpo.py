@@ -686,7 +686,33 @@ class ZeroMathLearner(PPOLearner):
 
                     ratio = torch.exp(logprobs_diff_max[mb_response_masks].sum() / mb_response_masks.sum())
                     pg_losses = -mb_advantage * ratio
+                    stats["logprobs_diff_max"].append(
+                        torch.amax(logprobs_diff.detach() * mb_response_masks).item()
+                    )
+                    stats["logprobs_diff_min"].append(
+                        torch.amin(logprobs_diff.detach() * mb_response_masks).item()
+                    )
+                    stats["zero_pg_loss_count"].append(
+                        (pg_losses == 0).detach().sum().item()
+                    )
 
+                    pg_loss = pg_losses
+                    infos["pg_loss"] = pg_loss.detach()
+                    loss = pg_loss
+                elif self.args.critic_type_modify == "gmpo_noclip":
+                    cliprange = 1000
+                    low_cliprange = torch.tensor(-cliprange).to(new_logps)
+                    high_cliprange = torch.tensor(cliprange).to(new_logps)
+
+                    sgn_advantage = -1 if mb_advantage >= 0 else 1
+                    logprobs_diff = new_logps - mb_logps
+                    sgn_logprobs_diff = sgn_advantage * logprobs_diff
+                    sgn_logprobs_diff_clamp = torch.clamp(sgn_logprobs_diff, low_cliprange, high_cliprange)
+                    sgn_logprobs_diff_max = torch.max(sgn_logprobs_diff, sgn_logprobs_diff_clamp)
+                    logprobs_diff_max = sgn_advantage * sgn_logprobs_diff_max
+
+                    ratio = torch.exp(logprobs_diff_max[mb_response_masks].sum() / mb_response_masks.sum())
+                    pg_losses = -mb_advantage * ratio
                     stats["logprobs_diff_max"].append(
                         torch.amax(logprobs_diff.detach() * mb_response_masks).item()
                     )
@@ -701,7 +727,7 @@ class ZeroMathLearner(PPOLearner):
                     infos["pg_loss"] = pg_loss.detach()
                     loss = pg_loss
                 elif self.args.critic_type_modify == "gmpo_seqclip":
-                    cliprange = 0.4
+                    cliprange = self.args.cliprange
                     low_cliprange = torch.tensor(-cliprange).to(new_logps)
                     high_cliprange = torch.tensor(cliprange).to(new_logps)
 
