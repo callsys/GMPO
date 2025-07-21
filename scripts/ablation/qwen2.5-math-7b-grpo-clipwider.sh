@@ -16,8 +16,8 @@ export LD_LIBRARY_PATH=$(python -c "import sysconfig; print(sysconfig.get_config
 
 N_GPU=8
 N_SAMPLE=8
-SAVE_STEPS=64
-CLIPRANGE=0.4
+SAVE_STEPS=100
+CLIPRANGE=0.2
 
 
 # Qwen-Math template
@@ -39,7 +39,7 @@ python train_zero_math_gmpo.py \
     --cliprange $CLIPRANGE \
     --oracle_type reward \
     --oracle math \
-    --pretrain ../zyz/understand-r1-zero/data/Qwen2.5-Math-7B \
+    --pretrain ../understand-r1-zero/data/Qwen2.5-Math-7B \
     --prompt_template qwen_math \
     --verifier_version math_verify \
     --zero-stage 2 \
@@ -62,14 +62,16 @@ python train_zero_math_gmpo.py \
     --rollout_batch_size_per_device $((128 / N_GPU)) \
     --pi_buffer_maxlen_per_device $((128 * N_SAMPLE / N_GPU)) \
     --eval_batch_size 200 \
-    --eval_steps 16 \
-    --eval_temperature 0 \
+    --eval_steps 100 \
+    --eval_temperature 0.6 \
+    --eval_n 16 \
+    --eval_top_p 0.95 \
     --eval_generate_max_length 3000 \
     --eval_data understand_r1_zero_main/datasets/evaluation_suite \
     --eval_input_key input \
     --use-wb \
     --wb_project oat-zero \
     --wb-run-name qwen2.5-Math-7b-drgrpo-qwenmathtemplate \
-    --critic_type_modify gmpo
+    --critic_type_modify grpo_clip_wider
 
 
