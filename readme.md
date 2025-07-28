@@ -15,7 +15,7 @@ This is the official implementaion of paper [***Geometric-Mean Policy Optimizati
 
 
 <div align=center>
-<img src="utils/gmpo_teaser.png" width="50%">
+<img src="utils/gmpo_teaser.png" width="100%">
 </div>
 
 
