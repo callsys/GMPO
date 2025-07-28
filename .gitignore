@@ -4,3 +4,5 @@ logs
 oat-output
 cache*.arrow
 Qwen
+scripts/qwen2.5-math-7b-hmpo.sh
+train_zero_math/hmpo.py
