@@ -55,12 +55,9 @@ for name, value in data.items():
     if "gmpo_7B.log" in name:
         name = "GMPO"
         color = (0, 0.8, 0.2)
-    elif "gmpo_7B_seqclip.log" in name:
-        name = "GMPO(seqclip)"
-        color = (0, 0.6, 0.8)
-    # elif "gmpo_7B_nonorm.log" in name:
-    #     name = "GMPO-nonorm"
-    #     color = (0, 0.4, 0.6)
+    elif "hmpo_7B.log" in name:
+        name = "HMPO"
+        color = (0.5, 0, 0.5)
     elif "grpo_7B_clip_wider" in name:
         name = "GRPO(clipwider)"
         color = (0.6, 0.4, 0)

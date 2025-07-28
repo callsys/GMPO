@@ -55,6 +55,9 @@ for name, value in data.items():
     if "gmpo_7B.log" in name:
         name = "GMPO"
         color = (0, 0.8, 0.2)
+    elif "hmpo_7B.log" in name:
+        name = "HMPO"
+        color = (0.5, 0, 0.5)
     elif "grpo_7B.log" in name:
         name = "GRPO"
         color = (1, 0, 0)
