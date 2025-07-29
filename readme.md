@@ -3,7 +3,7 @@
 # Geometric-Mean Policy Optimization
 </div>
 
-This is the official implementaion of paper [***Geometric-Mean Policy Optimization***](https://arxiv.org/abs/2507.20673). This repository contains Pytorch training code, evaluation code, pre-trained models, and visualization method.
+This is the official implementaion of paper [***Geometric-Mean Policy Optimization***](https://arxiv.org/abs/2507.20673). This repository contains Pytorch training code, evaluation code, and visualization method.
 
 <div align=center>
 
@@ -58,6 +58,7 @@ If you have any question about our work or this repository, please don't hesitat
 
 ## 6. Citation
 
+```
 @misc{zhao2025geometricmeanpolicyoptimization,
       title={Geometric-Mean Policy Optimization}, 
       author={Yuzhong Zhao and Yue Liu and Junpeng Liu and Jingye Chen and Xun Wu and Yaru Hao and Tengchao Lv and Shaohan Huang and Lei Cui and Qixiang Ye and Fang Wan and Furu Wei},
@@ -67,3 +68,4 @@ If you have any question about our work or this repository, please don't hesitat
       primaryClass={cs.CL},
       url={https://arxiv.org/abs/2507.20673}, 
 }
+```
