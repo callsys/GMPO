@@ -7,9 +7,7 @@ This is the official implementaion of paper [***Geometric-Mean Policy Optimizati
 
 <div align=center>
 
-[![arXiv preprint](http://img.shields.io/badge/arXiv-2307.09756-b31b1b)](https://arxiv.org/abs/2507.20673)
-![Python 3.8](https://img.shields.io/badge/Python-3.8-green.svg?style=plastic)
-![PyTorch 1.11](https://img.shields.io/badge/PyTorch-1.11-EE4C2C.svg?style=plastic)
+[![arXiv preprint](http://img.shields.io/badge/arXiv-2507.20673-b31b1b)](https://arxiv.org/abs/2507.20673)
 [![LICENSE](https://img.shields.io/github/license/vasgaowei/ts-cam.svg)](LICENSE)
 </div>
 
