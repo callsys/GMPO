@@ -238,6 +238,7 @@ def main(
         if batch_formatted:
             formatted[task_name] = np.mean(batch_formatted)
         max_lens[task_name] = np.max(batch_lengths)
+        print(results)
 
     print(results)
     print("avg:", np.mean(list(results.values())))
