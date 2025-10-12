@@ -52,8 +52,8 @@ If you have any question about our work or this repository, please don't hesitat
 
 ```
 @article{zhao2025geometric,
-  title={Geometric-Mean Policy Optimization},
-  author={Yuzhong Zhao and Yue Liu and Junpeng Liu and Jingye Chen and Xun Wu and Yaru Hao and Tengchao Lv and Shaohan Huang and Lei Cui and Qixiang Ye and Fang Wan and Furu Wei},
+  title={Geometric-mean policy optimization},
+  author={Zhao, Yuzhong and Liu, Yue and Liu, Junpeng and Chen, Jingye and Wu, Xun and Hao, Yaru and Lv, Tengchao and Huang, Shaohan and Cui, Lei and Ye, Qixiang and others},
   journal={arXiv preprint arXiv:2507.20673},
   year={2025}
 }
