@@ -45,7 +45,7 @@ import vllm
 import copy
 from datetime import datetime
 from collections import defaultdict
-os.environ["WANDB_MODE"] = "disabled"
+# os.environ["WANDB_MODE"] = "disabled"
 
 """
 1. To do RL from base models, we use proper prompt template to make the base model answer questions.
@@ -419,6 +419,18 @@ class ZeroMathLearner(PPOLearner):
             )
             advantages = advantages / (std_grouped_rewards + 1e-8)
         return advantages
+    
+    def compute_monte_carlo_advantages_opo(self, rewards, response_masks):
+        # del response_masks
+        rewards = rewards.sum(-1)
+        # Compute monte carlo trajectory-level advantage
+        response_masks = response_masks.view(rewards.numel(), -1)
+        response_lengths = response_masks.sum(-1).view(-1, self.args.num_samples)
+        values = (rewards.view(-1, self.args.num_samples) * response_lengths).sum(-1)
+        values = values / response_lengths.sum(-1)
+        values = values.repeat_interleave(self.args.num_samples, dim=0)
+        advantages = rewards - values
+        return advantages
 
     def _apply_template(self, example):
         problem = example[self.args.input_key]
@@ -602,15 +614,20 @@ class ZeroMathLearner(PPOLearner):
             rewards = torch.zeros_like(response_masks).float()
 
         rewards[torch.arange(len(rewards)), eos_indices] += final_rewards.squeeze()
-
-        if self.args.critic_type == "ppo":
-            advantages, returns, values = self.compute_ppo_advantages(
-                rewards, input_ids, att_mask, response_masks
-            )
-        elif self.args.critic_type in ["grpo", "drgrpo"]:
-            advantages = self.compute_monte_carlo_advantages(rewards, response_masks)[
+        
+        if self.args.critic_type_modify_advantage in ["opo"]:
+            advantages = self.compute_monte_carlo_advantages_opo(rewards, response_masks)[
                 :, None
             ]
+        else:
+            if self.args.critic_type == "ppo":
+                advantages, returns, values = self.compute_ppo_advantages(
+                    rewards, input_ids, att_mask, response_masks
+                )
+            elif self.args.critic_type in ["grpo", "drgrpo"]:
+                advantages = self.compute_monte_carlo_advantages(rewards, response_masks)[
+                    :, None
+                ]
 
         # Compute losses and update models for multiple PPO epochs.
         stats = defaultdict(list)
@@ -782,12 +799,17 @@ class ZeroMathLearner(PPOLearner):
                     pg_loss = pg_losses
                     infos["pg_loss"] = pg_loss.detach()
                     loss = pg_loss
-                elif self.args.critic_type_modify == "grpo_clip_wider":
+                elif self.args.critic_type_modify in ["grpo_clip_wider", "grpo_clip_wider_080_128"]:
+                    if self.args.critic_type_modify == "grpo_clip_wider_080_128":
+                        clipranges = [0.8, 1.28]
+                    else:
+                        clipranges = [0.67, 1.49]
+                        
                     logprobs_diff = new_logps - mb_logps
                     ratio = torch.exp(logprobs_diff)
                     pg_losses = -mb_advantage * ratio
                     pg_losses2 = -mb_advantage * torch.clamp(
-                        ratio, 0.67, 1.49
+                        ratio, clipranges[0], clipranges[1]
                     )
                     pg_loss_max = torch.max(pg_losses, pg_losses2)
 

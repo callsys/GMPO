@@ -12,11 +12,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-export LD_LIBRARY_PATH=$(python -c "import sysconfig; print(sysconfig.get_config_var('LIBDIR'))"):$LD_LIBRARY_PATH
+export LIBHOME=$(python -c "import sysconfig; print(sysconfig.get_config_var('LIBDIR'))")
+export NVHOME=${LIBHOME}/python3.10/site-packages/nvidia;
+cp -rp ${NVHOME}/cuda_runtime/lib/libcudart.so.12 ${NVHOME}/cuda_runtime/lib/libcudart.so.11.0;
+cp -rp ${NVHOME}/cublas/lib/libcublasLt.so.12 ${NVHOME}/cublas/lib/libcublasLt.so.11;
+cp -rp ${NVHOME}/cublas/lib/libcublas.so.12 ${NVHOME}/cublas/lib/libcublas.so.11;
+cp -rp ${NVHOME}/cufft/lib/libcufft.so.11 ${NVHOME}/cufft/lib/libcufft.so.10;
+cp -rp ${NVHOME}/cusparse/lib/libcusparse.so.12 ${NVHOME}/cusparse/lib/libcusparse.so.11;
+cp -rp ${NVHOME}/cudnn/lib/libcudnn.so.9 ${NVHOME}/cudnn/lib/libcudnn.so.8;
+export LD_LIBRARY_PATH=${LIBHOME}:${NVHOME}/cuda_runtime/lib:${NVHOME}/cublas/lib:${NVHOME}/cufft/lib:${NVHOME}/cusparse/lib:${NVHOME}/cudnn/lib:$LD_LIBRARY_PATH;
+export WANDB_MODE=offline;
 
 N_GPU=8
 N_SAMPLE=8
-SAVE_STEPS=100
+SAVE_STEPS=16
 CLIPRANGE=0.4
 
 
@@ -62,16 +71,14 @@ python train_zero_math_gmpo.py \
     --rollout_batch_size_per_device $((128 / N_GPU)) \
     --pi_buffer_maxlen_per_device $((128 * N_SAMPLE / N_GPU)) \
     --eval_batch_size 200 \
-    --eval_steps 100 \
-    --eval_temperature 0.6 \
-    --eval_n 16 \
-    --eval_top_p 0.95 \
+    --eval_steps 16 \
+    --eval_temperature 0 \
     --eval_generate_max_length 3000 \
     --eval_data understand_r1_zero_main/datasets/evaluation_suite \
     --eval_input_key input \
-    --use-wb \
     --wb_project oat-zero \
     --wb-run-name qwen2.5-Math-7b-drgrpo-qwenmathtemplate \
     --critic_type_modify gmpo
 
+    # --use-wb \
 

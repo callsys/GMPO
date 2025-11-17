@@ -4,3 +4,4 @@ logs
 oat-output
 cache*.arrow
 Qwen
+env.sh

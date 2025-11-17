@@ -45,7 +45,7 @@ import vllm
 import copy
 from datetime import datetime
 from collections import defaultdict
-os.environ["WANDB_MODE"] = "disabled"
+# os.environ["WANDB_MODE"] = "disabled"
 
 """
 1. To do RL from base models, we use proper prompt template to make the base model answer questions.

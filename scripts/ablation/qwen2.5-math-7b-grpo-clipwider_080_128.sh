@@ -79,6 +79,6 @@ python train_zero_math_gmpo.py \
     --eval_input_key input \
     --wb_project oat-zero \
     --wb-run-name qwen2.5-Math-7b-drgrpo-qwenmathtemplate \
-    --critic_type_modify grpo_clip_wider
+    --critic_type_modify grpo_clip_wider_080_128
 
     # --use-wb \

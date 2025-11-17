@@ -23,12 +23,11 @@ cp -rp ${NVHOME}/cudnn/lib/libcudnn.so.9 ${NVHOME}/cudnn/lib/libcudnn.so.8;
 export LD_LIBRARY_PATH=${LIBHOME}:${NVHOME}/cuda_runtime/lib:${NVHOME}/cublas/lib:${NVHOME}/cufft/lib:${NVHOME}/cusparse/lib:${NVHOME}/cudnn/lib:$LD_LIBRARY_PATH;
 export WANDB_MODE=offline;
 
-# export LD_LIBRARY_PATH=$(python -c "import sysconfig; print(sysconfig.get_config_var('LIBDIR'))"):$LD_LIBRARY_PATH
-
 N_GPU=8
 N_SAMPLE=8
 SAVE_STEPS=16
 CLIPRANGE=0.4
+
 
 # Qwen-Math template
 python train_zero_math_gmpo.py \
@@ -79,6 +78,8 @@ python train_zero_math_gmpo.py \
     --eval_input_key input \
     --wb_project oat-zero \
     --wb-run-name qwen2.5-Math-7b-drgrpo-qwenmathtemplate \
-    --critic_type_modify grpo_clip_wider
+    --critic_type_modify gmpo \
+    --critic_type_modify_advantage opo \
 
     # --use-wb \
+
