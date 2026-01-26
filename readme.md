@@ -3,7 +3,7 @@
 # Geometric-Mean Policy Optimization
 </div>
 
-This is the official implementaion of paper [***Geometric-Mean Policy Optimization***](https://arxiv.org/abs/2507.20673). This repository contains Pytorch training code, evaluation code, and visualization method.
+This is the official implementaion of paper [***Geometric-Mean Policy Optimization***](https://arxiv.org/abs/2507.20673), which is accepted in ***ICLR 2026***. This repository contains Pytorch training code, evaluation code, and visualization method.
 
 <div align=center>
 <img src="utils/gmpo_teaser.png" width="100%">
